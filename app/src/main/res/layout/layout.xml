@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/yellow"
+    android:weightSum="1">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:text="Welcome to Proximity Sensor App!"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:layout_weight="0.24" />
+
+    <TextView
+        android:id="@+id/proximityReading"
+        android:text="Bring the phone close to your body for the music to play and move the phone away for it to stop."
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.23" />
+</LinearLayout>
