@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     MediaPlayer mySound;
     SensorManager mySensorManager;
     Sensor myProximitySensor;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mySound.start();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
             if (event.values[0] == 0)
-                mySound.start();
+                thread_delay();
             else if (mySound.isPlaying()) {
                 if (event.values[0] != 0) {
                     mySound.pause();
@@ -73,16 +83,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-public void playMusic()
-{
-    mySound.start();
-}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mySound.release();
-    }
-}
+public void thread_delay(){
+    Runnable runnable = new Runnable() {
+        public void run() {
 
+            long endTime = System.currentTimeMillis() +
+                    10*1000;
+
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime -
+                                System.currentTimeMillis());
+                    } catch (Exception e) {}
+                }
+
+            }
+            handler.sendEmptyMessage(0);
+        }
+    };
+
+    Thread mythread = new Thread(runnable);
+    mythread.start();
+}
+}
 
